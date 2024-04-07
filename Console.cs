@@ -6,12 +6,17 @@ namespace Ignite {
             for (var i = 0; i < prompts!.Length - 1; i++)
                 Print (prompts[i], position, true);
             Print (prompts[^1], position, false);
-        }        
+        }
 
         public static void Printl (params object[]? prompts)
             => Printl (Position.Left, prompts);
         public static void Printl (in Position position = Position.Left, params object[]? prompts) {
-            foreach (var prompt in prompts!)
+            if (prompts == null) {
+                Print ("", position, true);
+                return;
+            }
+
+            foreach (var prompt in prompts)
                 Print (prompt, position, true);
 
         }
