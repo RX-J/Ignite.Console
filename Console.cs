@@ -3,20 +3,24 @@ namespace Ignite {
         public static void Print (params object[]? prompts)
             => Print (Position.Left, prompts);
         public static void Print (in Position position = Position.Left, params object[]? prompts) {
+            if (prompts == null || prompts?.Length == 0)
+                return;
+
             for (var i = 0; i < prompts!.Length - 1; i++)
                 Print (prompts[i], position, true);
+
             Print (prompts[^1], position, false);
         }
 
         public static void Printl (params object[]? prompts)
             => Printl (Position.Left, prompts);
         public static void Printl (in Position position = Position.Left, params object[]? prompts) {
-            if (prompts == null) {
-                Print ("", position, true);
+            if (prompts == null || prompts?.Length == 0) {
+                System.Console.WriteLine ();
                 return;
             }
 
-            foreach (var prompt in prompts)
+            foreach (var prompt in prompts!)
                 Print (prompt, position, true);
 
         }
@@ -24,7 +28,11 @@ namespace Ignite {
         public static T Scan<T> (params object[]? prompts)
             => Scan<T> (Position.Left, prompts);
         public static T Scan<T> (in Position position = Position.Left, params object[]? prompts) {
+            if (prompts == null || prompts?.Length == 0)
+                return Ignite.Convert.Primitive<T> (System.Console.ReadLine ());
+
             Print (in position, prompts);
+
             return Ignite.Convert.Primitive<T> (System.Console.ReadLine ());
         }
 
@@ -34,7 +42,7 @@ namespace Ignite {
             Centered = 2
         }
 
-        private static void Print (in object? prompt = null, Position position = Position.Left, bool mode = false) {
+        private static void Print (in object? prompt, Position position, bool mode) {
             if (prompt == null)
                 return;
 
