@@ -50,8 +50,13 @@ namespace Ignite {
                 .ToString ()!
                 .Split ('\n');
 
-            for (var i = 0; i < split.Length - 1; i++)
+            var flag = mode;
+
+            for (var i = 0; i < split.Length - 1; i++) {
+                mode = false;
                 Write (split[i] + "\n");
+                mode = flag;
+            }
 
             Write (split[^1]);
 
@@ -59,60 +64,60 @@ namespace Ignite {
                 var overhang = System.Linq.Enumerable.Count (write.ToCharArray (), char.IsControl);
 
                 var tags = new System.Collections.Generic.Dictionary<string, (string, int)> {
-                    { "<bold>", ("\u001b[1m", 4) },
-                    { "</bold>", ("\u001b[22m", 5) },
+                        { "<bold>", ("\u001b[1m", 4) },
+                        { "</bold>", ("\u001b[22m", 5) },
 
-                    { "<faint>", ("\u001b[2m", 4) },
-                    { "</faint>", ("\u001b[22m", 5) },
+                        { "<faint>", ("\u001b[2m", 4) },
+                        { "</faint>", ("\u001b[22m", 5) },
 
-                    { "<italic>", ("\u001b[3m", 4) },
-                    { "</italic>", ("\u001b[23m", 5) },
+                        { "<italic>", ("\u001b[3m", 4) },
+                        { "</italic>", ("\u001b[23m", 5) },
 
-                    { "<underline>", ("\u001b[4m", 4) },
-                    { "</underline>", ("\u001b[24m", 5) },
+                        { "<underline>", ("\u001b[4m", 4) },
+                        { "</underline>", ("\u001b[24m", 5) },
 
-                    { "<blinking>", ("\u001b[5m", 4) },
-                    { "</blinking>", ("\u001b[25m", 5) },
+                        { "<blinking>", ("\u001b[5m", 4) },
+                        { "</blinking>", ("\u001b[25m", 5) },
 
-                    { "<reverse>", ("\u001b[7m", 4) },
-                    { "</reverse>", ("\u001b[27m", 5) },
+                        { "<reverse>", ("\u001b[7m", 4) },
+                        { "</reverse>", ("\u001b[27m", 5) },
 
-                    { "<invisible>", ("\u001b[8m", 4) },
-                    { "</invisible>", ("\u001b[28m", 5) },
+                        { "<invisible>", ("\u001b[8m", 4) },
+                        { "</invisible>", ("\u001b[28m", 5) },
 
-                    { "<strikethrough>", ("\u001b[9m", 4) },
-                    { "</strikethrough>", ("\u001b[29m", 5) },
+                        { "<strikethrough>", ("\u001b[9m", 4) },
+                        { "</strikethrough>", ("\u001b[29m", 5) },
 
-                    { "<foreground-gray>", ("\u001b[90m", 5)},
-                    { "<foreground-red>", ("\u001b[91m", 5)},
+                        { "<foreground-gray>", ("\u001b[90m", 5)},
+                        { "<foreground-red>", ("\u001b[91m", 5)},
 
-                    { "<foreground-green>", ("\u001b[92m", 5)},
-                    { "<foreground-yellow>", ("\u001b[93m", 5)},
+                        { "<foreground-green>", ("\u001b[92m", 5)},
+                        { "<foreground-yellow>", ("\u001b[93m", 5)},
 
-                    { "<foreground-blue>", ("\u001b[94m", 5)},
-                    { "<foreground-magenta>", ("\u001b[95m", 5)},
+                        { "<foreground-blue>", ("\u001b[94m", 5)},
+                        { "<foreground-magenta>", ("\u001b[95m", 5)},
 
-                    { "<foreground-cyan>", ("\u001b[96m", 5)},
-                    { "<foreground-white>", ("\u001b[97m", 5)},
+                        { "<foreground-cyan>", ("\u001b[96m", 5)},
+                        { "<foreground-white>", ("\u001b[97m", 5)},
 
-                    { "<background-gray>", ("\u001b[100m", 6)},
-                    { "<background-red>", ("\u001b[101m", 6)},
+                        { "<background-gray>", ("\u001b[100m", 6)},
+                        { "<background-red>", ("\u001b[101m", 6)},
 
-                    { "<background-green>", ("\u001b[102m", 6)},
-                    { "<background-yellow>", ("\u001b[103m", 6)},
+                        { "<background-green>", ("\u001b[102m", 6)},
+                        { "<background-yellow>", ("\u001b[103m", 6)},
 
-                    { "<background-blue>", ("\u001b[104m", 6)},
-                    { "<background-magenta>", ("\u001b[105m", 6)},
+                        { "<background-blue>", ("\u001b[104m", 6)},
+                        { "<background-magenta>", ("\u001b[105m", 6)},
 
-                    { "<background-cyan>", ("\u001b[106m", 6)},
-                    { "<background-white>", ("\u001b[107m", 6)},
+                        { "<background-cyan>", ("\u001b[106m", 6)},
+                        { "<background-white>", ("\u001b[107m", 6)},
 
-                    { "<foreground-black>", ("\u001b[30m", 5)},
-                    { "<background-black>", ("\u001b[40m", 5)},
+                        { "<foreground-black>", ("\u001b[30m", 5)},
+                        { "<background-black>", ("\u001b[40m", 5)},
 
-                    { "</foreground>", ("\u001b[39m", 5)},
-                    { "</background>", ("\u001b[49m", 5)}
-                };
+                        { "</foreground>", ("\u001b[39m", 5)},
+                        { "</background>", ("\u001b[49m", 5)}
+                    };
 
                 while (write.Contains ("<foreground-#") || write.Contains ("<background-#")) {
                     var start = write.IndexOf ("<foreground-#");
