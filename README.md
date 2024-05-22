@@ -18,7 +18,6 @@ Ignite.Console.Print ("Hello World!"); // Writes "Hello World!" to the console
 | ```<reverse>```       | Reverses the foreground and background colors | ```</reverse>```       |
 | ```<invisible>```     | Writes the text invisible to the console      | ```</invisible>```     |
 | ```<strikethrough>``` | Writes text in ~~strikethrough~~ letters      | ```</strikethrough>``` |
-|
 
 ### You Can Also Change the Foreground and Background Colors:
 
