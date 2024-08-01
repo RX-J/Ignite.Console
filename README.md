@@ -1,4 +1,4 @@
-# **Important: The ```Ignite.Console``` Class Requires the ```Ignite.Convert``` Class from https://github.com/RX-J/Ignite.Convert/blob/main/Convert.cs**
+# **Important: The ```Ignite.Console``` class requires the ```Ignite.Convert``` class from https://github.com/RX-J/Ignite.Convert/blob/main/Convert.cs**
 
 To print a value to the console, call the ```Print``` function:
 
